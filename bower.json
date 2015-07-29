@@ -1,0 +1,38 @@
+{
+  "name": "angular-swaggerific",
+  "version": "0.0.0",
+  "authors": [
+    "Tushar Ghate <tushghate@gmail.com>"
+  ],
+  "description": "A promise-based service which allows you to easily interact with API endpoints that have been created using Swagger.",
+  "main": [
+    "dist/angular-swaggerific.js",
+    "dist/angular-swaggerific.min.js"
+  ],
+  "keywords": [
+    "angular",
+    "swagger",
+    "rest",
+    "promise",
+    "service"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/tusharghate/angular-swaggerific",
+  "ignore": [
+    "**/.*",
+    ".gitignore",
+    "jshint-config.jshintrc",
+    "package.json",
+    "bower.json",
+    "GruntFile.js",
+    "grunt",
+    "demo",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.2.21"
+  }
+}

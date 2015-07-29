@@ -1,0 +1,17 @@
+{
+	
+  "curly": true,
+
+  "eqnull": true,
+    
+  "undef": true,
+
+  "asi": true,
+
+  "expr": true,
+
+  "shadow": true,
+  
+  "predef": ["angular", "module", "inject"]
+
+}
