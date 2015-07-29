@@ -1,52 +1,34 @@
-# angular-simple-sprite
-An easy-to-use AngularJS directive for creating simple sprite animations. 
+# angular-swaggerific
+A promise-based service which allows you to easily interact with API endpoints that have been created using Swagger.
 
 ## Quick Start
 
-+ Install angular-simple-sprite with [Bower](http://www.bower.io)
++ Install angular-swaggerific with [Bower](http://www.bower.io)
 
 ```
-$ bower install angular-simple-sprite --save
+$ bower install angular-swaggerific --save
 ```
 
 + Include the required libraries in your `index.html`: 
 
 ```html
 <script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-simple-sprite/angular-simple-sprite.min.js"></script>
+<script src="bower_components/angular-simple-sprite/angular-swaggerific.min.js"></script>
 ```
 
-+ Inject the `simple-sprite` module into your app:
++ Inject the `angular-swaggerific` module into your app:
 
 ```javascript
-angular.module('myApp', ['simple-sprite']);
+angular.module('myApp', ['angular-swaggerific']);
 ```
 
-+ Implement the `simple-sprite` directive in your HTML:
++ Implement the `angular-swaggerific` service:
 
-```html
- <simple-sprite 
-    src="path/to/your/image.png" 
-    frame-width="100" 
-    frame-height="100" 
-    frames="10" 
-    frames-per-row="5" 
-    repeat="true" 
-    speed="50">
-</simple-sprite>
+```javascript
+# Todo
 ```
 
-Be sure to check the example folder if you'd like to see `simple-sprite` in action.
-
-## Options
-
-+ `src` - The path to your sprite image.
-+ `frame-width` - The width of a single frame in your sprite.
-+ `frame-height` - The height of a single frame in your sprite.
-+ `frames` - The total number of frames in your sprite.
-+ `frames-per-row` - _Optional_ The number of frames on each row in your sprite, for example if your frames are arranged `4x2`, your `frames-per-row` is `4`. A fully vertical sprite would have a `frames-per-row` of `1`, and a fully horizonal sprite would have a `frames-per-row` of `0`. Defaults to `0`.
-+ `repeat` - _Optional_ Determines whether or not the sprite animation should repeat. Defaults to `true`.
-+ `speed` - _Optional_ The speed between each frame in milliseconds. Defaults to `100ms`.
+## Demo 
 
 
 ## Author
