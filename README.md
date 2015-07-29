@@ -1,5 +1,5 @@
 # angular-swaggerific
-A promise-based service which allows you to easily interact with API endpoints that have been created using Swagger.
+A promise-based service which allows you to easily interact with API endpoints that have been created using [Swagger](http://swagger.io/).
 
 ## Quick Start
 
@@ -25,11 +25,35 @@ angular.module('myApp', ['angular-swaggerific']);
 + Implement the `angular-swaggerific` service:
 
 ```javascript
-# Todo
+angular
+  .module('my-app', ['angular-swaggerific'])
+  .controller('AppController', AppController);
+  
+AppController.$inject = ['$window', 'AngularSwaggerific'];
+
+function AppController($window, AngularSwaggerific) {
+  var self = this;
+  
+  /**
+   * Note that 'swaggerJson' refers to the generated JSON from your Swagger API. 
+   * Visit editor.swagger.io to import your API and generate your JSON file.
+   */ 
+  var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
+  
+  MySwaggerAPI.{namespace}.{operationId}({"id": 1})
+    .then(function(data) { 
+      $log.log("Success! " + data);
+    }, function(err) {
+      $log.log("Error! " + err);
+    });
+}
 ```
 
-## Demo 
+For a more detailed usage example, please see below. 
 
+## Detailed Walkthrough 
+
++ The first step is to create your RESTful API using [Swagger](http://editor.swagger.io). I will be using an example API provided by Swagger called 
 
 ## Author
 
