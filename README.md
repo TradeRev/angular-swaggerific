@@ -43,7 +43,7 @@ angular
   }); 
 ```
 
-For a more detailed documentation, please visit the Angular Swaggerific Docs.
+For a more detailed documentation, please visit the [Angular Swaggerific Docs](traderev.github.io/angular-swaggerific).
 
 ## License
 

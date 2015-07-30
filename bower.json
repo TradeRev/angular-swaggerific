@@ -2,7 +2,7 @@
   "name": "angular-swaggerific",
   "version": "0.0.1",
   "authors": [
-    "Tushar Ghate <tushghate@gmail.com>"
+    "TradeRev"
   ],
   "description": "A promise-based service which allows you to easily interact with API endpoints that have been created using Swagger.",
   "main": [
@@ -17,7 +17,7 @@
     "service"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/tusharghate/angular-swaggerific",
+  "homepage": "http://traderev.github.io/angular-swaggerific/",
   "ignore": [
     "**/.*",
     ".gitignore",
