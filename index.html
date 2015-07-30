@@ -1,1 +1,201 @@
-My Page
+<!DOCTYPE html>
+<html ng-app="my-app">
+
+  <head>
+    <title>Angular Swaggerific</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="./bower_components/google-code-prettify/src/prettify.css"/>
+  </head>
+
+  <body ng-controller="AppController as appController">
+    <!-- <form name="login" ng-submit="appController.generateAPI(appController.json)" novalidate>
+        <label for="json" style="display: block;">JSON:</label>
+        <textarea rows="20" cols="100" id="json" ng-model="appController.json"></textarea>
+        <button style="display: block;" type="submit">Generate API</button>
+    </form>
+    <pre>{{appController.api}}</pre> -->
+
+    <div class="container">
+    	<header>
+    		<h1 style="display: none;">Angular Swaggerific</h1>
+    		<img src="./images/swaggerific_logo@2x.png" height="300"/>
+    	</header>
+    	<section class="center">
+    		<h2>Angular Swaggerific is a promise-based service which allows you to easily interact with API endpoints that have been created using <a href="http://www.swagger.io">Swagger</a>.</h2>
+    		<section class="action-buttons">
+    			<button class="btn-default">View on GitHub</button>
+    			<button class="btn-primary">Download Swaggerific</button>
+    		</section>
+    	</section>
+    	<div class="divider"></div>
+    	<section class="center">
+    		<p><h3>A more "Angular" approach to interacting with your Swagger APIs.</h2></p>
+    		<p><img src="./images/angular_swagger@2x.png" height="75"/></p>
+    		<p><h4>Angular Swaggerific utilizes the promise-based $http API that is built into AngularJS. Your generated Swagger JSON file is used to create a Swaggerific API object, which allows you to easily communicate with your Swagger-defined endpoints.</h4></p>
+    		<div class="example clearfix">
+    			<div class="pull-left" style="height: 350px;">
+			    	<form name="generate-api" ng-submit="appController.generateAPI(appController.json)" novalidate>
+				        <label for="json" style="display: block;">
+				        	Swagger JSON
+				        </label>
+				     	<div class="sub-label">
+				     		Paste your generated Swagger JSON here and click on <strong>Generate My API</strong> 
+				     		to see a preview of your Swaggerific API object.
+				        </div>
+				        <textarea id="json" ng-model="appController.json"></textarea>
+				        <button class="btn-primary btn-small pull-right" style="margin: 2px 0 0 0; width: auto;" type="submit">Generate My API</button>
+			    	</form>
+    			</div>
+    			<div class="pull-right">
+    				<div class="code">
+    					<pre>{{appController.api}}</pre>
+    				</div>
+    			</div>
+    		</div>
+    		<br style="clear: both;"/>
+    	</section>
+    	<div class="divider"></div>
+    	<section class="center">
+    		<p><h3>Get up and running in seconds.</h3></p>
+    		<p><h4>
+    			Setting up Swaggerific is super easy. Communicating with your endpoints using Swaggerific
+    			is even easier.
+    		</h4></p>
+    		<div class="steps">
+    			<ul>
+    				<li>
+    					<div>1. Install Angular Swaggerific. Use <a href="http://www.bower.io">Bower</a> or download the source. It's up to you.</div>
+    					<div class="code">
+    						<pre class="prettyprint">bower install angular-swaggerific</pre>
+    					</div>
+    				</li>
+    				<li>
+    					<div>2. Include the required libraries in your application.</div>
+    					<div class="code">
+<pre class="prettyprint">&lt;script src="bower_components/angular/angular.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular-simple-sprite/angular-swaggerific.min.js"&gt;&lt;/script&gt;</pre>
+    					</div>
+    				</li>
+    				<li>
+    					<div>3. Inject the <var>angular-swaggerific</var> module into your app:</div>
+    					<div class="code">
+<pre class="prettyprint">angular.module('myApp', ['angular-swaggerific']);</pre>
+    					</div>
+    				</li>
+    				<li>
+    					<div>4. Implement the <var>angular-swaggerific</var> service:</div>
+    					<div class="code">
+<pre class="prettyprint" style="text-align:left">
+angular
+   .module('my-app', ['angular-swaggerific'])
+   .run(function($log, $window, AngularSwaggerific){
+	/**
+	* Note that 'swaggerJson' refers to the generated JSON from your Swagger API. 
+	* Visit editor.swagger.io to import your API and generate your JSON file.
+	*/ 
+	var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
+
+	MySwaggerAPI.{NAMESPACE}.{OPERATION_ID}({"id": 1})
+	.then(function(data) { 
+	    $log.log("Success! " + data);
+	}, function(err) {
+	    $log.log("Error! " + err);
+	});
+  }); 
+</pre>
+    					</div>
+    				</li>
+    			</ul>
+    		</div>
+    	</section>
+    	<section class="docs" class="center" style="background: #eee;">
+    		<h2 class="center">Angular Swaggerific Documentation</h2>
+    		<div class="instruction">
+    			<h4>Constructor</h4>
+    			<div class="function">AngularSwaggerific(json)</div>
+    			<div class="push-right desc">
+	    			<p class="important">
+	    				Creates a new AngularSwaggerific object from a Swagger JSON object.
+	    			</p>
+	    			<p>
+	    				<strong>Arguments</strong>
+	    			</p>
+	    			<p>
+	    				<var>json {Object}</var> - The JSON generated by Swagger. This JSON can be generated using the 
+	    				<a href="http://editor.swagger.io">Swagger Editor.</a>
+	    			</p>
+	    			<p>
+	    				<strong>Returns</strong>
+	    			</p>
+	    			<p>
+	    				<var>api {Object}</var> - Returns a <var>JavaScript</var> Object representation of the user's Swagger API
+	    				with all endpoints mapped to properties based on API tags, operationIds and methods. Based on the Swagger API, 
+	    				the way this object is created varies. See below for examples. 
+	    			</p>
+	    			<p>
+	    				<strong>Gotchas</strong>
+	    			</p>
+	    			<div>
+		    			<p>
+		    				It is recommended that you provide a <var>tag</var> and <var>operationId</var> to all of the paths defined in your Swagger API. 
+		    				This way Angular Swaggerific can better construct your API object with property names that map directly 
+		    				to your API. If no <var>tag</var> is provided, then Angular Swaggerific will use the first path variable it can find.
+		    				If there are no path variables present, then Angular Swaggerific will default to using the base path. If there is no <var>operationId</var> present, then AngularSwaggerific will default to using the request method (get, post, put, delete, etc).
+		    			</p>
+		    			<p>
+		    				<strong style="color: #666;">Tip:</strong> Use the API generator above to see exactly how your API is constructed.
+		    			</p>
+	    			</div>
+	    			<p>
+	    				<strong>Useage</strong>
+	    			</p>
+	    			<div class="code">
+<pre class="prettyprint">
+// $window.json is defined elsewhere, and is the JSON generated by Swagger
+var API = new AngularSwaggerific($window.json);
+</pre>
+	    			</div>
+    			</div>
+    		</div>
+    	</section>
+    </div>
+
+  </body>
+
+  <script type="text/javascript" src="./bower_components/angular/angular.min.js"></script>
+  <script type="text/javascript" src="./js/example-api.js"></script>
+  <script type="text/javascript" src="./bower_components/google-code-prettify/src/prettify.js"></script>
+  <script type="text/javascript">
+	(function(){
+	    prettyPrint();
+	})();
+  </script>
+  <script type="text/javascript" src="./js/angular-swaggerific.min.js"></script>
+  <script type="text/javascript">
+	  (function() {
+	  	angular
+	  		.module('my-app', ['angular-swaggerific'])  		
+	  		.controller('AppController', AppController)
+
+      AppController.$inject = ['$log', '$window', 'AngularSwaggerific'];
+
+	  	function AppController($log, $window, AngularSwaggerific) {
+	  		var self = this;
+
+        	self.json = JSON.stringify($window.exampleAPI);
+
+	        self.generateAPI = function(json) {
+	          var API = new AngularSwaggerific(JSON.parse(json));
+
+	          self.api = JSON.stringify(API, 
+	            function(key, val) {
+	              return (typeof val === 'function') ? '[function]' : val; 
+	            }, 2);
+	        };
+
+	        self.generateAPI(self.json); 
+	  	}
+	  })(angular);
+  </script>
+</html>
