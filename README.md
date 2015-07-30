@@ -27,7 +27,7 @@ angular.module('myApp', ['angular-swaggerific']);
 ```javascript
 angular
   .module('my-app', ['angular-swaggerific'])
-  .run(function($rootScope, $log, $window, AngularSwaggerific){
+  .run(function($rootScope, $log, $window, AngularSwaggerific) {
     /**
     * Note that 'swaggerJson' refers to the generated JSON from your Swagger API. 
     * Visit editor.swagger.io to import your API and generate your JSON file.
