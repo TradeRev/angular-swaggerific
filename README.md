@@ -27,40 +27,23 @@ angular.module('myApp', ['angular-swaggerific']);
 ```javascript
 angular
   .module('my-app', ['angular-swaggerific'])
-  .controller('AppController', AppController);
-  
-AppController.$inject = ['$window', 'AngularSwaggerific'];
+  .run(function($rootScope, $log, $window, AngularSwaggerific){
+    /**
+    * Note that 'swaggerJson' refers to the generated JSON from your Swagger API. 
+    * Visit editor.swagger.io to import your API and generate your JSON file.
+    */ 
+    var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
 
-function AppController($window, AngularSwaggerific) {
-  var self = this;
-  
-  /**
-   * Note that 'swaggerJson' refers to the generated JSON from your Swagger API. 
-   * Visit editor.swagger.io to import your API and generate your JSON file.
-   */ 
-  var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
-  
-  MySwaggerAPI.{namespace}.{operationId}({"id": 1})
-    .then(function(data) { 
-      $log.log("Success! " + data);
-    }, function(err) {
-      $log.log("Error! " + err);
+    MySwaggerAPI.{namespace}.{operationId}({"id": 1})
+      .then(function(data) { 
+        $log.log("Success! " + data);
+      }, function(err) {
+        $log.log("Error! " + err);
     });
-}
+  }); 
 ```
 
-For a more detailed usage example, please see below. 
-
-## Detailed Walkthrough 
-
-+ The first step is to create your RESTful API using [Swagger](http://editor.swagger.io). I will be using an example API provided by Swagger called 
-
-## Author
-
-### Tushar Ghate
-
-+ [http://www.tusharghate.com](http://www.tusharghate.com)
-+ [http://github.com/tusharghate](http://github.com/tusharghate)
+For a more detailed documentation, please visit the Angular Swaggerific Docs.
 
 ## License
 
