@@ -6,6 +6,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="./css/style.css"/>
     <link rel="stylesheet" type="text/css" href="./bower_components/google-code-prettify/src/prettify.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
 
   <body ng-controller="AppController as appController">
@@ -22,17 +23,17 @@
     		<img src="./images/swaggerific_logo@2x.png" height="300"/>
     	</header>
     	<section class="center">
-    		<h2>Angular Swaggerific is a promise-based service which allows you to easily interact with API endpoints that have been created using <a href="http://www.swagger.io">Swagger</a>.</h2>
+    		<h2>Angular Swaggerific is a promise-based service which allows you to easily interact with API endpoints created using <a href="http://www.swagger.io">Swagger</a>.</h2>
     		<section class="action-buttons">
-    			<a href="https://github.com/TradeRev/angular-swaggerific/"><button class="btn-default">View on GitHub</button></a>
-    			<a href="https://github.com/TradeRev/angular-swaggerific/archive/master.zip"><button class="btn-primary">Download Swaggerific</button></a>
+    			<a href="https://github.com/TradeRev/angular-swaggerific/"><button class="btn-default"><i class="fa fa-github"></i> View on GitHub</button></a>
+    			<a href="https://github.com/TradeRev/angular-swaggerific/archive/master.zip"><button class="btn-primary"><i class="fa fa-download"></i> Download Swaggerific</button></a>
     		</section>
     	</section>
     	<div class="divider"></div>
     	<section class="center">
     		<p><h3>A more "Angular" approach to interacting with your Swagger APIs.</h2></p>
     		<p><img src="./images/angular_swagger@2x.png" height="75"/></p>
-    		<p><h4>Angular Swaggerific utilizes the promise-based $http API that is built into AngularJS. Your generated Swagger JSON file is used to create a Swaggerific API object, which allows you to easily communicate with your Swagger-defined endpoints.</h4></p>
+    		<p><h4>Angular Swaggerific utilizes the promise-based $http API that is built into AngularJS. Your generated Swagger JSON file is used to create a <var>Swaggerific API</var>, which allows you to easily communicate with your Swagger defined endpoints.</h4></p>
     		<div class="example clearfix">
     			<div class="pull-left" style="height: 350px;">
 			    	<form name="generate-api" ng-submit="appController.generateAPI(appController.json)" novalidate>
@@ -41,10 +42,10 @@
 				        </label>
 				     	<div class="sub-label">
 				     		Paste your generated Swagger JSON here and click on <strong>Generate My API</strong> 
-				     		to see a preview of your Swaggerific API object.
+				     		to see a preview of your <var>Swaggerific API</var>.
 				        </div>
 				        <textarea id="json" ng-model="appController.json"></textarea>
-				        <button class="btn-primary btn-small pull-right" style="margin: 2px 0 0 0; width: auto;" type="submit">Generate My API</button>
+				        <button class="btn-primary btn-small pull-right" style="margin: 2px 0 0 0; width: auto;" type="submit"><i class="fa fa-bolt"></i> Generate My API</button>
 			    	</form>
     			</div>
     			<div class="pull-right">
@@ -57,9 +58,9 @@
     	</section>
     	<div class="divider"></div>
     	<section class="center">
-    		<p><h3>Get up and running in seconds.</h3></p>
+    		<p><h3>Get up and running in minutes.</h3></p>
     		<p><h4>
-    			Setting up Swaggerific is super easy. Communicating with your endpoints using Swaggerific
+    			Setting up Angular Swaggerific is super easy. Communicating with your endpoints using Angular Swaggerific
     			is even easier.
     		</h4></p>
     		<div class="steps">
@@ -71,7 +72,7 @@
     					</div>
     				</li>
     				<li>
-    					<div>2. Include the required libraries in your application.</div>
+    					<div>2. Include the required libraries.</div>
     					<div class="code">
 <pre class="prettyprint">&lt;script src="bower_components/angular/angular.js"&gt;&lt;/script&gt;
 &lt;script src="bower_components/angular-simple-sprite/angular-swaggerific.min.js"&gt;&lt;/script&gt;</pre>
@@ -96,7 +97,7 @@ angular
 	*/ 
 	var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
 
-	MySwaggerAPI.{NAMESPACE}.{OPERATION_ID}({"id": 1})
+	MySwaggerAPI.{TAG}.{OPERATION_ID}({"id": 1})
 	.then(function(data) { 
 	    $log.log("Success! " + data);
 	}, function(err) {
@@ -129,9 +130,9 @@ angular
 	    				<strong>Returns</strong>
 	    			</p>
 	    			<p>
-	    				<var>api {Object}</var> - Returns a <var>JavaScript</var> Object representation of the user's Swagger API
-	    				with all endpoints mapped to properties based on API tags, operationIds and methods. Based on the Swagger API, 
-	    				the way this object is created varies. See below for examples. 
+	    				<var>Swaggerific API {Object}</var> - Returns an object representation of your provided Swagger API
+	    				with all endpoints mapped to properties based on API <var>tags</var>, <var>operationIds</var> and methods.
+                        This object varies based on how your Swagger API is defined.  
 	    			</p>
 	    			<p>
 	    				<strong>Gotchas</strong>
@@ -139,12 +140,10 @@ angular
 	    			<div>
 		    			<p>
 		    				It is recommended that you provide a <var>tag</var> and <var>operationId</var> to all of the paths defined in your Swagger API. 
-		    				This way Angular Swaggerific can better construct your API object with property names that map directly 
-		    				to your API. If no <var>tag</var> is provided, then Angular Swaggerific will use the first path variable it can find.
-		    				If there are no path variables present, then Angular Swaggerific will default to using the base path. If there is no <var>operationId</var> present, then Angular Swaggerific will default to using the request method (get, post, put, delete, etc).
+		    				This way Angular Swaggerific can better construct your Swaggerific API object. If no <var>tag</var> is provided for a given path, then Angular Swaggerific will use the first variable in the path itself. If there are no path variables present, then Angular Swaggerific will default to using the base path. If there is no <var>operationId</var> present, then Angular Swaggerific will default to using the request method (get, post, put, delete, etc).
 		    			</p>
 		    			<p>
-		    				<strong style="color: #666;">Tip:</strong> Use the API generator above to see exactly how your API is constructed.
+		    				<strong style="color: #666;">Tip:</strong> Use the API generator above to see exactly how your <var>Swaggerific API</var> is constructed.
 		    			</p>
 	    			</div>
 	    			<p>
@@ -158,7 +157,36 @@ var API = new AngularSwaggerific($window.json);
 	    			</div>
     			</div>
     		</div>
+            <div class="instruction">
+                <h4>Communicating with your Swagger endpoints.</h4>
+
+                <div class="push-right desc">
+                    <p class="important">
+                        Communicating with your endpoints using the <var>Swaggerific API</var> is very easy. After you have created
+                        your API, each property (based on the <var>tag</var> and <var>operationId</var> of a path) triggers a request
+                        to its designated endpoint. Using the Swagger Simple PetStore API (as provided in the <a href="http://editor.swagger.io" target="_blank">Swagger Editior</a>) as an example:
+                    </p>
+                    <div class="code">
+<pre class="prettyprint">
+// Initialize my Swaggerific API 
+var myAPI = new AngularSwaggerific($window.SimplePetStore);
+
+// Let's add a pet
+myAPI.pets.addPet({"id": 1})
+    .then(function(data) {
+        $log.log("Success! " + data);
+    }, function(err) {
+        $log.log("Oops! Something went wrong! " + err);
+    });
+</pre>
+                    </div>   
+                </div>
+            </div>
     	</section>
+    </div>
+
+    <footer class="center">
+        <img src="./images/tr-logo@2x.png" height="150"/>
     </div>
 
   </body>
