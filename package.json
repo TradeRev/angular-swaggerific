@@ -1,8 +1,8 @@
 {
-  "name": "angular-insta-grid",
-  "version": "0.0.0",
+  "name": "angular-swaggerific",
+  "version": "0.0.1",
   "description": "A promise-based AngularJS service that allows you to work with REST endpoints defined with Swagger.",
-  "main": "GruntFile.js",
+  "main": "./dist/angular-swaggerific.min.js",
   "dependencies": {
     "grunt": "^0.4.5"
   },
@@ -19,6 +19,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Tushar Ghate <tushghate@gmail.com>",
+  "author": "TradeRev",
   "license": "MIT"
 }
