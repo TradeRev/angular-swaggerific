@@ -4,15 +4,13 @@
         .factory('util', util)
         .factory('AngularSwaggerific', AngularSwaggerific);
 
-    util.$inject = ['$log'];
-
-    function util($log) {
+    function util() {
         return {
 
             /**
              * Replaces path variables with associated data properties
              * @param {string} path - The endpoint path.
-             * @param {object} data - Data defined by the user.  
+             * @param {object} data - Data defined by the user.
              * @returns {string} - Newly created path using data passed in by user.
              */
             replaceInPath: function(path, data) {
@@ -36,9 +34,9 @@
 
         /**
          * Represents an AngularSwaggerific object.
+         *
+         * @param {string} json - The generated Swagger JSON object, or a URL to an external Swagger JSON document.
          * @constructor
-         * @param {string} json - The generated Swagger JSON object.
-         * @returns {object} api - Reference to the AngularSwaggerific API object.
          */
         var AngularSwaggerific = function(json) {
             this.api = {};
@@ -47,68 +45,99 @@
             if (!json || json === '') {
                 $log.error("Invalid JSON.");
                 return {};
+            } else {
+                _json = json;
             }
-
-            _json = json;
-
-            return this.init();
-        }
+        };
 
         /**
          * Creates the AngularSwaggerific API object.
-         * @returns {object} api - Reference to the AngularSwaggerific API object.
+         *
+         * @param {function(Error)} cb - Executed when AngularSwaggerific is fully initialized.
          */
-        AngularSwaggerific.prototype.init = function() {
+        AngularSwaggerific.prototype.init = function(cb) {
             var self = this;
 
-            self.host = 'http://' + _json.host + _json.basePath;
+            /**
+             * If we have the JSON already, parse it and initialize the API.
+             * Otherwise, assume a remote API definition exists and load it.
+             */
+            if (self.isValidUrl(_json)) {
+                $http({
+                    method: "GET",
+                    url: _json
+                }).then(
 
-            angular.forEach(_json.paths, function(value, key) {
-                angular.forEach(value, function(innerValue, innerKey) {
-                    var namespace;
-                    if (!innerValue.tags) {
-                        /** Set the namespace equal to the first path variable. */
-                        namespace = key.split('/')[1];
+                    /**
+                     * Remote Swagger API definition loaded!
+                     *
+                     * @param response
+                     */
+                     function(response) {
+                        _json = response.data;
+                        self.init(cb);
+                     },
+
+                    /**
+                     * Error loading the remote Swagger API definition.
+                     *
+                     * @param err {Error}
+                     */
+                     function(err) {
+                        cb(err);
+                     }
+                );
+            } else {
+                self.host = _json.host + (_json.basePath || "");
+
+                angular.forEach(_json.paths, function(value, key) {
+                    angular.forEach(value, function(innerValue, innerKey) {
+                        var namespace;
+                        if (!innerValue.tags) {
+                            /** Set the namespace equal to the first path variable. */
+                            namespace = key.split('/')[1];
+
+                            /**
+                             * If there is no path variable (i.e. '/'), then set the namespace equal to
+                             * the base path.
+                             */
+                            if (!namespace || namespace === '') {
+                                namespace = _json.basePath.split("/")[1];
+                            }
+                        } else {
+                            /** Set the namespace equal to the associated tag. */
+                            namespace = innerValue.tags[0]
+                        }
+
+                        /** Remove curly braces from the namespace. */
+                        namespace = namespace.replace(/[{}]/g, "");
+
+                        /** Create the namespace if it doesn't already exist. */
+                        if (!self.api[namespace]) {
+                            self.api[namespace] = {};
+                        }
 
                         /**
-                         * If there is no path variable (i.e. '/'), then set the namespace equal to 
-                         * the base path.
+                         * Map HTTP call to namespace[operationId].
+                         * If there is no operationId, then use method (i.e. get, post, put)
                          */
-                        if (!namespace || namespace === '') {
-                            namespace = _json.basePath.split("/")[1];
+                        if (!innerValue.operationId) {
+                            innerValue.operationId = innerKey;
                         }
-                    } else {
-                        /** Set the namespace equal to the associated tag. */
-                        namespace = innerValue.tags[0]
-                    }
 
-                    /** Remove curly braces from the namespace. */
-                    namespace = namespace.replace(/[{}]/g, "");
-
-                    /** Create the namespace if it doesn't already exist. */
-                    if (!self.api[namespace]) {
-                        self.api[namespace] = {};
-                    }
-
-                    /** 
-                     * Map HTTP call to namespace[operationId].
-                     * If there is no operationId, then use method (i.e. get, post, put)
-                     */
-                    if (!innerValue.operationId) {
-                        innerValue.operationId = innerKey;
-                    }
-
-                    (self.api[namespace])[innerValue.operationId] = function(data) {
-                        return self.trigger(key, innerKey, data);
-                    };
+                        (self.api[namespace])[innerValue.operationId] = function(data) {
+                            return self.trigger(key, innerKey, data);
+                        };
+                    });
                 });
-            });
 
-            return self.api;
-        }
+                cb(null);
+            }
+        };
 
         /**
-         * Sets up and executes the HTTP request (using $http) for a specfic path.
+         * Sets up and executes the HTTP request (using $http) for a specific path.
+         *
          * @param {string} path - The path of the endpoint.
          * @param {method} method - The method of the HTTP request (i.e. get, post, delete, put).
          * @param {data} data - User passed data.
@@ -125,7 +154,23 @@
                 url: self.host + newPath,
                 data: data
             })
-        }
+        };
+
+        /**
+         * Checks if a String is a valid URL.
+         *
+         * @param string {String}
+         * @returns {Boolean}
+         */
+        AngularSwaggerific.prototype.isValidUrl = function(string) {
+            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+                '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+            return pattern.test(string);
+        };
 
         return AngularSwaggerific;
     }

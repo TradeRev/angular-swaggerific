@@ -28,17 +28,35 @@ angular.module('myApp', ['angular-swaggerific']);
 angular
   .module('my-app', ['angular-swaggerific'])
   .run(function($rootScope, $log, $window, AngularSwaggerific) {
-    /**
-    * Note that 'swaggerJson' refers to the generated JSON from your Swagger API. 
-    * Visit editor.swagger.io to import your API and generate your JSON file.
-    */ 
-    var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
 
-    MySwaggerAPI.{namespace}.{operationId}({"id": 1})
-      .then(function(data) { 
-        $log.log("Success! " + data);
-      }, function(err) {
-        $log.log("Error! " + err);
+    /** 
+     * Initialize an AngularSwaggerific instance using a local JSON Swagger definition...
+     */
+    var mySwaggerAPI = new AngularSwaggerific({ ... });
+    mySwaggerAPI.init(function(err) {
+
+       mySwaggerAPI.{namespace}.{operationId}({"id": 1})
+         .then(function(data) { 
+           $log.log("Success! " + data);
+         }, function(err) {
+           $log.log("Error! " + err);
+       }); 
+       
+    });
+    
+    /**
+     * Or load a remote JSON Swagger definition.
+     */
+    var remoteSwaggerApi = new AngularSwaggerific("http://localhost/MySwaggerApi.json");    
+    remoteSwaggerApi.init(function(err) {
+    
+       remoteSwaggerApi.{namespace}.{operationId}({"id": 1})
+         .then(function(data) { 
+           $log.log("Success! " + data);
+         }, function(err) {
+           $log.log("Error! " + err);
+       }); 
+       
     });
   }); 
 ```
