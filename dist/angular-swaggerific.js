@@ -12,7 +12,7 @@
             /**
              * Replaces path variables with associated data properties
              * @param {string} path - The endpoint path.
-             * @param {object} data - Data defined by the user.  
+             * @param {object} data - Data defined by the user.
              * @returns {string} - Newly created path using data passed in by user.
              */
             replaceInPath: function(path, data) {
@@ -71,7 +71,7 @@
                         namespace = key.split('/')[1];
 
                         /**
-                         * If there is no path variable (i.e. '/'), then set the namespace equal to 
+                         * If there is no path variable (i.e. '/'), then set the namespace equal to
                          * the base path.
                          */
                         if (!namespace || namespace === '') {
@@ -90,7 +90,7 @@
                         self.api[namespace] = {};
                     }
 
-                    /** 
+                    /**
                      * Map HTTP call to namespace[operationId].
                      * If there is no operationId, then use method (i.e. get, post, put)
                      */
@@ -117,15 +117,22 @@
         AngularSwaggerific.prototype.trigger = function(path, method, data) {
             var self = this;
 
-            var data = data || {};
+            var getParams, postData;
+            if (angular.lowercase(method) === 'get') {
+                getParams = data || {};
+            } else {
+                postData = data || {};
+            }
+
             var newPath = util.replaceInPath(path, data);
 
             return $http({
                 method: method,
                 url: self.host + newPath,
-                data: data
-            })
-        }
+                data: postData,
+                params: getParams
+            });
+        };
 
         return AngularSwaggerific;
     }
