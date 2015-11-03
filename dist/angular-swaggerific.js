@@ -2,7 +2,7 @@
     angular
         .module('angular-swaggerific', [])
         .factory('util', util)
-        .factory('AngularSwaggerific', AngularSwaggerific);
+        .service('AngularSwaggerific', AngularSwaggerific);
 
     function util() {
         return {
@@ -129,6 +129,7 @@
                             return self.trigger(key, innerKey, data);
                         };
                     });
+
                 });
 
                 cb(null);
@@ -146,13 +147,22 @@
         AngularSwaggerific.prototype.trigger = function(path, method, data) {
             var self = this;
 
-            var data = data || {};
+            data = data || {};
+
+            var getParams, postData;
+            if (angular.lowercase(method) === 'get') {
+                getParams = data || {};
+            } else {
+                postData = data || {};
+            }
+
             var newPath = util.replaceInPath(path, data);
 
             return $http({
                 method: method,
                 url: self.host + newPath,
-                data: data
+                data: postData,
+                params: getParams
             })
         };
 
@@ -172,7 +182,6 @@
             return pattern.test(string);
         };
 
-        return AngularSwaggerific;
     }
 
 })(angular);
