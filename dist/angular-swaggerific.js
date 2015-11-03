@@ -147,6 +147,8 @@
         AngularSwaggerific.prototype.trigger = function(path, method, data) {
             var self = this;
 
+            data = data || {};
+
             var getParams, postData;
             if (angular.lowercase(method) === 'get') {
                 getParams = data || {};
