@@ -2,7 +2,7 @@
     angular
         .module('angular-swaggerific', [])
         .factory('util', util)
-        .factory('AngularSwaggerific', AngularSwaggerific);
+        .service('AngularSwaggerific', AngularSwaggerific);
 
     function util() {
         return {
@@ -125,10 +125,11 @@
                             innerValue.operationId = innerKey;
                         }
 
-                        (self.api[namespace])[innerValue.operationId] = function(data) {
-                            return self.trigger(key, innerKey, data);
+                        (self.api[namespace])[innerValue.operationId] = function(data, headers) {
+                            return self.trigger(key, innerKey, data, headers);
                         };
                     });
+
                 });
 
                 cb(null);
@@ -138,21 +139,32 @@
         /**
          * Sets up and executes the HTTP request (using $http) for a specific path.
          *
-         * @param {string} path - The path of the endpoint.
-         * @param {method} method - The method of the HTTP request (i.e. get, post, delete, put).
-         * @param {data} data - User passed data.
+         * @param {String} path - The path of the endpoint.
+         * @param {String} method - The method of the HTTP request (i.e. get, post, delete, put).
+         * @param {Object} data - User passed data.
+         * @params {Object} [headers] - Optional additional headers
          * @returns {Promise} - Returns a promise from $http which can be chained to by user.
          */
-        AngularSwaggerific.prototype.trigger = function(path, method, data) {
+        AngularSwaggerific.prototype.trigger = function(path, method, data, headers) {
             var self = this;
 
-            var data = data || {};
+            data = data || {};
+
+            var getParams, postData;
+            if (angular.lowercase(method) === 'get') {
+                getParams = data || {};
+            } else {
+                postData = data || {};
+            }
+
             var newPath = util.replaceInPath(path, data);
 
             return $http({
+                headers: headers || {},
                 method: method,
                 url: self.host + newPath,
-                data: data
+                data: postData,
+                params: getParams
             })
         };
 
@@ -172,7 +184,6 @@
             return pattern.test(string);
         };
 
-        return AngularSwaggerific;
     }
 
 })(angular);
