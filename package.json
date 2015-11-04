@@ -1,6 +1,6 @@
 {
   "name": "angular-swaggerific",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A promise-based AngularJS service that allows you to work with REST endpoints defined with Swagger.",
   "main": "./dist/angular-swaggerific.min.js",
   "dependencies": {

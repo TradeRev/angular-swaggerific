@@ -2,7 +2,7 @@
     angular
         .module('angular-swaggerific', [])
         .factory('util', util)
-        .service('AngularSwaggerific', AngularSwaggerific);
+        .factory('AngularSwaggerific', AngularSwaggerific);
 
     function util() {
         return {
@@ -88,8 +88,18 @@
                     }
                 );
             } else {
-                self.host = _json.host + (_json.basePath || "");
+                // Sanitize the basePath and API host
+                if (!_json.basePath || _json.basePath == '/') {
+                    _json.basePath = "";
+                }
 
+                if (_json.host.indexOf('http') !== 0) {
+                    _json.host = "http://" + _json.host;
+                }
+
+                self.host = _json.host + _json.basePath;
+
+                // Iterate over the available paths and construct the API methods dynamically
                 angular.forEach(_json.paths, function(value, key) {
                     angular.forEach(value, function(innerValue, innerKey) {
                         var namespace;
@@ -184,6 +194,8 @@
             return pattern.test(string);
         };
 
+
+        return AngularSwaggerific;
     }
 
 })(angular);
