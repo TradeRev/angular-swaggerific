@@ -1,3 +1,6 @@
+bower-components/
+node-modules/
+
 # Logs
 logs
 *.log

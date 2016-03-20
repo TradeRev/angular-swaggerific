@@ -11,9 +11,9 @@
 
             /**
              * Replaces path variables with associated data properties
-             * @param {string} path - The endpoint path.
-             * @param {object} data - Data defined by the user.  
-             * @returns {string} - Newly created path using data passed in by user.
+             * @param {String} path
+             * @param {Object} data
+             * @returns {String}
              */
             replaceInPath: function(path, data) {
                 var properties = path.match(/[^{}]+(?=\})/g) || [];
@@ -23,6 +23,16 @@
                 }
 
                 return path;
+            },
+
+            /**
+             * Returns true if a specified array contains a specified value.
+             * @param {Object} value
+             * @param {Array} array
+             * @return {Boolean}
+             */
+            contains: function(value, array) {
+                return array.indexOf(value) >= 0;
             }
 
         }
@@ -61,7 +71,8 @@
         AngularSwaggerific.prototype.init = function() {
             var self = this;
 
-            self.host = 'http://' + _json.host + _json.basePath;
+            var scheme = util.contains('https', _json.schemes) ? 'https://' : 'http://';
+            self.host = scheme + _json.host + _json.basePath;
 
             angular.forEach(_json.paths, function(value, key) {
                 angular.forEach(value, function(innerValue, innerKey) {
@@ -71,7 +82,7 @@
                         namespace = key.split('/')[1];
 
                         /**
-                         * If there is no path variable (i.e. '/'), then set the namespace equal to 
+                         * If there is no path variable (i.e. '/'), then set the namespace equal to
                          * the base path.
                          */
                         if (!namespace || namespace === '') {
@@ -90,7 +101,7 @@
                         self.api[namespace] = {};
                     }
 
-                    /** 
+                    /**
                      * Map HTTP call to namespace[operationId].
                      * If there is no operationId, then use method (i.e. get, post, put)
                      */

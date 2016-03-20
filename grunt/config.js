@@ -23,7 +23,7 @@ module.exports = {
                 {
                     expand: true,
                     cwd: 'dist/',
-                    src: ['**/*.less'], 
+                    src: ['**/*.less'],
                     dest: 'dist/',
                     ext: '.css',
                     extDot: 'first'
@@ -62,7 +62,7 @@ module.exports = {
     	},
     },
 
-     watch: {
+    watch: {
         less: {
             files: ['dist/**/*.less'],
             tasks: ['less'],
