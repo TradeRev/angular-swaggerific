@@ -6,8 +6,7 @@
   ],
   "description": "A promise-based service which allows you to easily interact with API endpoints that have been created using Swagger.",
   "main": [
-    "dist/angular-swaggerific.js",
-    "dist/angular-swaggerific.min.js"
+    "dist/angular-swaggerific.js"
   ],
   "keywords": [
     "angular",
