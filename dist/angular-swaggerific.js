@@ -109,8 +109,8 @@
                         innerValue.operationId = innerKey;
                     }
 
-                    (self.api[namespace])[innerValue.operationId] = function(data) {
-                        return self.trigger(key, innerKey, data);
+                    (self.api[namespace])[innerValue.operationId] = function(data, config) {
+                        return self.trigger(key, innerKey, data, config);
                     };
                 });
             });
@@ -120,22 +120,26 @@
 
         /**
          * Sets up and executes the HTTP request (using $http) for a specfic path.
-         * @param {string} path - The path of the endpoint.
-         * @param {method} method - The method of the HTTP request (i.e. get, post, delete, put).
-         * @param {data} data - User passed data.
+         * @param {String} path
+         * @param {String} method
+         * @param {Object} data
+         * @param {Object} [config]
          * @returns {Promise} - Returns a promise from $http which can be chained to by user.
          */
-        AngularSwaggerific.prototype.trigger = function(path, method, data) {
+        AngularSwaggerific.prototype.trigger = function(path, method, data, config) {
             var self = this;
 
             var data = data || {};
+            var config = config || {};
             var newPath = util.replaceInPath(path, data);
 
-            return $http({
+            var httpConfig = angular.extend({
                 method: method,
                 url: self.host + newPath,
                 data: data
-            })
+            }, config);
+
+            return $http(httpConfig);
         }
 
         return AngularSwaggerific;
