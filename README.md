@@ -13,7 +13,7 @@ $ bower install angular-swaggerific --save
 
 ```html
 <script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-simple-sprite/angular-swaggerific.min.js"></script>
+<script src="bower_components/angular-swaggerific/angular-swaggerific.min.js"></script>
 ```
 
 + Inject the `angular-swaggerific` module into your app:
