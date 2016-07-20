@@ -145,8 +145,6 @@
 				params: getParams
             }, config);
 
-            console.debug(httpConfig);
-
             return $http(httpConfig);
         }
 
