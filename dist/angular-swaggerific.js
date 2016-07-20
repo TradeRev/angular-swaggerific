@@ -72,7 +72,7 @@
             var self = this;
 
             var scheme = util.contains('https', _json.schemes) ? 'https://' : 'http://';
-            self.host = scheme + _json.host + _json.basePath;
+            self.host = scheme + _json.host + (_json.basePath?_json.basePath:"");
 
             angular.forEach(_json.paths, function(value, key) {
                 angular.forEach(value, function(innerValue, innerKey) {
