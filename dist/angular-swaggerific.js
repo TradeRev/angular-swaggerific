@@ -72,7 +72,7 @@
             var self = this;
 
             var scheme = util.contains('https', _json.schemes) ? 'https://' : 'http://';
-            self.host = scheme + _json.host + (_json.basePath?_json.basePath:"");
+            self.host = scheme + _json.host + (_json.basePath ? _json.basePath : "");
 
             angular.forEach(_json.paths, function(value, key) {
                 angular.forEach(value, function(innerValue, innerKey) {
@@ -129,15 +129,23 @@
         AngularSwaggerific.prototype.trigger = function(path, method, data, config) {
             var self = this;
 
-            var data = data || {};
+            var getParams, postData;
+            if (angular.lowercase(method) === 'get') {
+                getParams = data || {};
+            } else {
+                postData = data || {};
+            }
             var config = config || {};
             var newPath = util.replaceInPath(path, data);
 
             var httpConfig = angular.extend({
                 method: method,
                 url: self.host + newPath,
-                data: data
+				data: postData,
+				params: getParams
             }, config);
+
+            console.debug(httpConfig);
 
             return $http(httpConfig);
         }
