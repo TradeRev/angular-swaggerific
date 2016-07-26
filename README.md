@@ -3,26 +3,26 @@ A promise-based service which allows you to easily interact with API endpoints t
 
 ## Quick Start
 
-+ Install angular-swaggerific with [Bower](http://www.bower.io)
+#### Install angular-swaggerific with [Bower](http://www.bower.io)
 
 ```
 $ bower install angular-swaggerific --save
 ```
 
-+ Include the required libraries in your `index.html`: 
+#### Include the required libraries in your `index.html`: 
 
 ```html
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-simple-sprite/angular-swaggerific.min.js"></script>
 ```
 
-+ Inject the `angular-swaggerific` module into your app:
+#### Inject the `angular-swaggerific` module into your app:
 
 ```javascript
 angular.module('myApp', ['angular-swaggerific']);
 ```
 
-+ Implement the `angular-swaggerific` service:
+#### Implement the `angular-swaggerific` service:
 
 ```javascript
 angular
@@ -34,12 +34,31 @@ angular
     */ 
     var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
 
-    mySwaggerAPI.{namespace}.{operationId}({"id": 1})
+    mySwaggerAPI.{namespace}.{operationId}(options)
       .then(function(data) { 
-        $log.log("Success! " + data);
+      	$log.log("Success! " + data);
       }, function(err) {
-        $log.log("Error! " + err);
-    });
+      	$log.log("Error! " + err);
+      });
+    
+    /**
+    * Pet Store Examples
+    */
+    
+    mySwaggerAPI.pet.getPetById({petId:1})
+      .then(function(data) {
+     	 $log.log("Success! Pet: " + data);
+      }, function(err) {
+     	 $log.log("Error! " + err);
+      });
+    
+    mySwaggerAPI.pet.findPetsByTags({params:{tags:"example"}})
+      .then(function(data) {
+     	 $log.log("Success! Pets: " + data);
+      }, function(err) {
+     	 $log.log("Error! " + err);
+      });
+      
     
     /**
     * Cancel all current requests that are made through the swagger client
@@ -47,6 +66,20 @@ angular
     mySwaggerAPI.cancelRequests();
   }); 
 ```
+
+#### Possible Options
+
+In the options section, you put any of the variables that are passed in the URL, as they appear in the Swagger JSON. For instance, the Pet Store Swagger example has `/pet/{petId}` as a URL, so in the options, you would pass `petID` with the ID you are wanting.
+
++ params `[object]`
+  + Params are the variables that can be passed as a parameter.
+  + If it is a `GET` or `DELETE` request, they are appended to the URL
+  + If it is a `POST` or `PUT` request, they are sent as form data
++ ignoreDuplicateRequest `boolean`
+  + If set to `true`, duplicate requests will continue to be sent
+  + If omited or `false`, previous duplicate requests will be rejected/cancelled 
+
+___
 
 For a more detailed documentation, please visit the [Angular Swaggerific Docs](http://traderev.github.io/angular-swaggerific).
 
