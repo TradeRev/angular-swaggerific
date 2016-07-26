@@ -38,10 +38,11 @@
         }
     }
 
-    AngularSwaggerific.$inject = ['$log', '$http', 'util'];
+    AngularSwaggerific.$inject = ['$log', '$http', 'util', '$q'];
 
-    function AngularSwaggerific($log, $http, util) {
-
+    function AngularSwaggerific($log, $http, util, $q) {
+        var pendingRequests = {};
+        var cancelRequests = {};
         var _json = null;
 
         /**
@@ -60,7 +61,6 @@
             }
 
             _json = json;
-
             return this.init();
         }
 
@@ -115,6 +115,12 @@
                 });
             });
 
+			self.api["cancelRequests"] = function() {
+				angular.forEach(cancelRequests, function(v,i) {
+					v.resolve();
+				})
+			}
+
             return self.api;
         }
 
@@ -130,22 +136,43 @@
             var self = this;
 
             var getParams, postData;
-            if (angular.lowercase(method) === 'get') {
-                getParams = data || {};
-            } else {
-                postData = data || {};
+            if (data && data.params !== undefined) {
+                if (angular.lowercase(method) === 'get' || angular.lowercase(method) === 'delete') {
+                    getParams = data.params || {};
+                } else {
+                    postData = data.params || {};
+                }
             }
             var config = config || {};
             var newPath = util.replaceInPath(path, data);
+            var identifier = method + newPath;
+			if(data && data.ignoreDuplicateRequest) {
+	            cancelRequests[identifier + JSON.stringify(data)] = $q.defer();
+	            var httpConfig = angular.extend({
+	                method: method,
+	                url: self.host + newPath,
+	                data: postData,
+	                params: getParams,
+					timeout: cancelRequests[identifier + JSON.stringify(data)].promise
+	            }, config);
+            	return $http(httpConfig);
+			}
+            if (pendingRequests[identifier]) {
+				cancelRequests[identifier].resolve();
+				delete cancelRequests[identifier];
+				delete pendingRequests[identifier];
+            }
 
+            cancelRequests[identifier] = $q.defer();
             var httpConfig = angular.extend({
                 method: method,
                 url: self.host + newPath,
-				data: postData,
-				params: getParams
+                data: postData,
+                params: getParams,
+                timeout: cancelRequests[identifier].promise
             }, config);
-
-            return $http(httpConfig);
+            pendingRequests[identifier] = $http(httpConfig);
+            return pendingRequests[identifier];
         }
 
         return AngularSwaggerific;
