@@ -34,12 +34,17 @@ angular
     */ 
     var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
 
-    MySwaggerAPI.{namespace}.{operationId}({"id": 1})
+    mySwaggerAPI.{namespace}.{operationId}({"id": 1})
       .then(function(data) { 
         $log.log("Success! " + data);
       }, function(err) {
         $log.log("Error! " + err);
     });
+    
+    /**
+    * Cancel all current requests that are made through the swagger client
+    */
+    mySwaggerAPI.cancelRequests();
   }); 
 ```
 
