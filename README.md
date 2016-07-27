@@ -9,7 +9,7 @@ A promise-based service which allows you to easily interact with API endpoints t
 $ bower install angular-swaggerific --save
 ```
 
-#### Include the required libraries in your `index.html`: 
+#### Include the required libraries in your `index.html`:
 
 ```html
 <script src="bower_components/angular/angular.js"></script>
@@ -29,42 +29,48 @@ angular
   .module('my-app', ['angular-swaggerific'])
   .run(function($rootScope, $log, $window, AngularSwaggerific) {
     /**
-    * Note that 'swaggerJson' refers to the generated JSON from your Swagger API. 
+    * Note that 'swaggerJson' refers to the generated JSON from your Swagger API.
     * Visit editor.swagger.io to import your API and generate your JSON file.
-    */ 
+    */
     var mySwaggerAPI = new AngularSwaggerific($window.swaggerJson);
 
     mySwaggerAPI.{namespace}.{operationId}(options)
-      .then(function(data) { 
+      .then(function(data) {
       	$log.log("Success! " + data);
       }, function(err) {
       	$log.log("Error! " + err);
       });
-    
+
     /**
     * Pet Store Examples
     */
-    
+
     mySwaggerAPI.pet.getPetById({petId:1})
       .then(function(data) {
      	 $log.log("Success! Pet: " + data);
       }, function(err) {
      	 $log.log("Error! " + err);
       });
-    
+
     mySwaggerAPI.pet.findPetsByTags({params:{tags:"example"}})
       .then(function(data) {
      	 $log.log("Success! Pets: " + data);
       }, function(err) {
      	 $log.log("Error! " + err);
       });
-      
-    
+
+    /**
+    * Allow all duplicate requests to be sent by default
+	*   - this doesn't require the allowDuplicate option to be set
+    */
+    mySwaggerAPI.allowDuplicateRequests(true);
+
     /**
     * Cancel all current requests that are made through the swagger client
+	*   - all pending requests are cancelled/rejected
     */
     mySwaggerAPI.cancelRequests();
-  }); 
+  });
 ```
 
 #### Possible Options
@@ -75,9 +81,9 @@ In the options section, you put any of the variables that are passed in the URL,
   + Params are the variables that can be passed as a parameter.
   + If it is a `GET` or `DELETE` request, they are appended to the URL
   + If it is a `POST` or `PUT` request, they are sent as form data
-+ ignoreDuplicateRequest `boolean`
++ allowDuplicate `boolean`
   + If set to `true`, duplicate requests will continue to be sent
-  + If omited or `false`, previous duplicate requests will be rejected/cancelled 
+  + If omitted or `false`, previous duplicate requests will be rejected/cancelled
 
 ___
 
@@ -108,5 +114,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
-
-
