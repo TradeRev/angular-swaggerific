@@ -4,7 +4,6 @@
   "description": "A promise-based AngularJS service that allows you to work with REST endpoints defined with Swagger.",
   "main": "./dist/angular-swaggerific.min.js",
   "dependencies": {
-    "grunt": "^0.4.5"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
