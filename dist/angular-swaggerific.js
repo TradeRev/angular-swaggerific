@@ -130,7 +130,7 @@
             var self = this;
 
             var getParams, postData;
-            if (angular.lowercase(method) === 'get') {
+            if (method.toLowerCase() === 'get') {
                 getParams = data || {};
             } else {
                 postData = data || {};
@@ -141,8 +141,8 @@
             var httpConfig = angular.extend({
                 method: method,
                 url: self.host + newPath,
-				data: postData,
-				params: getParams
+                data: postData,
+                params: getParams
             }, config);
 
             return $http(httpConfig);
